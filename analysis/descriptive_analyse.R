@@ -6,50 +6,74 @@ library(haven)
 # 1.0 Daten einlesen ------------------------------------------------------
 
 # 1.0.0
-# * Lese den Datensatz data/student_data.csv ein
-# * Speichere den Datensatz in der Variable student_data
-student_data <- read_csv("data/student_data.csv")
+# * Lese den Datensatz data/spacing_piano_data.csv ein
+# * Speichere den Datensatz in der Variable spacing_piano_data
+spacing_piano_data <- read_csv("data/spacing_piano_data.csv")
 
 
 # 1.1 Daten bereinigen ---------------------------------------------
 
 # 1.1.0
-# * Wandle die Variablennamen mit clean_names in snake case um
-# * Kodiere die Variable pstatus mit case_when um: T -> together, A -> apart
-#   Speichere die umkodierte Variable unter dem gleichen Variablennamen pstatus
-# * Verbinde beide Bereinigungsschritte mit dem Pipe-Operator
-# * Berechne den Mittelwert der Mathenote unter der neuen Variable mean_grade_math
-# * Speichere den bereinigten Datensatz in der Variable student_data_cleaned
-student_data_cleaned <- student_data %>% 
-  clean_names(case = "snake") %>%
+# * Reinige die Variablen mit der Funktion clean_names()
+# * Der Datensatz enthält Variablen zu zwei Aufgaben, uns interessiert nur die
+#   erste Aufgabe. Lösche daher alle Variablen, die 'task2' im Variablennamen
+#   enthalten mit Hilfe von select und contains
+# * Kodiere die Variablen music_training und sheet_music mit case_when um:
+#   music_training: 1 -> piano, 2 -> other_instrument
+#   sheet_music: 1 -> can_read, 2 -> cannot_read
+# * Speichere den bereinigten Datensatz in der Variable 
+#   spacing_piano_data_cleaned
+spacing_piano_data_cleaned <- spacing_piano_data %>% 
+  clean_names() %>% 
+  select(-contains("task2")) %>% 
   mutate(
-    pstatus = case_when(
-      pstatus == "T" ~ "together",
-      pstatus == "A" ~ "apart"
+    music_training = case_when(
+      music_training == 1 ~ "piano",
+      music_training == 2 ~ "other_instrument"),
+    sheet_music = case_when(
+      sheet_music == 1 ~ "can_read",
+      sheet_music == 2 ~ "cannot_read"
     )
-  ) %>%
-  mutate(
-    mean_grade_math = (g1 + g2 + g3) / 3
   )
+
+# 1.2 Datenexport ---------------------------------------------------------
+
+# 1.2.0
+# * Exportiere den Datensatz in den Ordner data/cleaned
+# * Speichere die Daten unter data/export/spacing_piano_data_cleaned.csv
+write_csv(spacing_piano_data_cleaned, "data/export/spacing_piano_data_cleaned.csv")
+
+
+# 1.2.1
+# * Um die Daten in SPSS zu nutzen, exportiere den gereinigten Datensatz mit der
+#   Funktion write_sav
+# * Speichere die Daten unter data/export/student_data_cleaned.sav
+write_sav(spacing_piano_data_cleaned, "data/export/spacing_piano_data_cleaned.sav")
 
 
 # 1.2 Daten explorieren  ------------------------------------------------
 
 # 1.2.0
 # * Wie viele Maenner und Frauen sind im Datensatz?
-student_data_cleaned %>%
-  count(sex)
+spacing_piano_data_cleaned %>%
+  count(gender)
 
 # 1.2.1
-# * Bestimme die Spannweite und den Mittelwert des Alters aller SuS
-range(student_data_cleaned$age)
-mean(student_data_cleaned$age, na.rm = TRUE)
+# * Bestimme den Mittelwert des Alters aller Probanden sowie je nach Geschlecht
+# * Lösche die fehlenden Daten mit Hilfe von drop_na
+mean(spacing_piano_data_cleaned$age, na.rm = TRUE)
+spacing_piano_data_cleaned %>%
+  drop_na(gender, age) %>%
+  group_by(gender) %>%
+  summarise(
+    mean_age = mean(age)
+  )
 
 # 1.2.2
-# * Wie viele SuS leben in Familien mit mehr als drei und wieviele mit
-#   weniger oder gleich drei Familienmitgliedern?
-student_data_cleaned %>%
-  count(famsize)
+# * Wie viele der Proband*innen haben Klavierunterricht, Unterricht in einem
+#   anderen Instrument oder gar keinen Musikunterricht?
+spacing_piano_data_cleaned %>%
+  count(music_training)
 
 # 1.2.3
 # * Vergleiche, inwieweit sich die SuS in der Qualitaet ihrer familiaeren 
@@ -133,16 +157,4 @@ ggsave("images/barbplot_mothers_education_status.png", width = 8,
        height = 5, dpi = 300)
 
 
-# 1.4 Datenexport ---------------------------------------------------------
 
-# 1.4.0
-# * Exportiere den Datensatz in den Ordner data/cleaned
-# * Speichere die Daten unter data/export/student_data_cleaned.csv
-write_csv(student_data_cleaned, "data/export/student_data_cleaned.csv")
-
-
-# 1.4.1
-# * Um die Daten in SPSS zu nutzen, exportiere den gereinigten Datensatz mit der
-#   Funktion write_sav
-# * Speichere die Daten unter data/export/student_data_cleaned.sav
-write_sav(student_data_cleaned, "data/export/student_data_cleaned.sav")
