@@ -54,7 +54,7 @@ write_sav(spacing_piano_data_cleaned, "data/export/spacing_piano_data_cleaned.sa
 # 1.2 Daten explorieren  ------------------------------------------------
 
 # 1.2.0
-# * Wie viele Maenner und Frauen sind im Datensatz?
+# Wie viele Maenner und Frauen sind im Datensatz?
 spacing_piano_data_cleaned %>%
   count(gender)
 
@@ -62,6 +62,7 @@ spacing_piano_data_cleaned %>%
 # * Bestimme den Mittelwert des Alters aller Probanden sowie je nach Geschlecht
 # * Lösche die fehlenden Daten mit Hilfe von drop_na
 mean(spacing_piano_data_cleaned$age, na.rm = TRUE)
+
 spacing_piano_data_cleaned %>%
   drop_na(gender, age) %>%
   group_by(gender) %>%
@@ -70,30 +71,26 @@ spacing_piano_data_cleaned %>%
   )
 
 # 1.2.2
-# * Wie viele der Proband*innen haben Klavierunterricht, Unterricht in einem
-#   anderen Instrument oder gar keinen Musikunterricht?
+# Wie viele der Proband*innen haben Klavierunterricht, Unterricht in einem
+# anderen Instrument oder gar keinen Musikunterricht?
 spacing_piano_data_cleaned %>%
   count(music_training)
 
 # 1.2.3
-# * Vergleiche, inwieweit sich die SuS in der Qualitaet ihrer familiaeren 
-#   Bindungen unterscheiden, wenn ihre Eltern zusammen oder getrennt leben.  
-# * Berechne den Mittelwert für beide Gruppen der Variable pstatus mit 
-#   den Funktionen group_by und fasse sie zusammen.
-student_data_cleaned %>%
-  group_by(pstatus) %>%
-  summarise(
-    mean_famrel = mean(famrel)
-  )
+# Wie viele Teilnehmende waren in den einzelnen Gruppen (lag_task1)?
+spacing_piano_data_cleaned %>%
+  count(lag_task1)
 
 # 1.2.4
-# * Untersuche, wie sich SuS aus kleinen und groeßeren Familien in 
-#   ihrer durchschnittlichen Mathenote unterscheiden. 
-# * Haben SuS aus kleinen Familien bessere Noten?
-student_data_cleaned %>%
-  group_by(famsize) %>%
+# * Bestimme mit Hilfe von group_by und summarise den Mittelwert je Gruppe
+#   (lag_task1) für die drei verschiedenen Leistungskriterien im Abschlusstest
+# * Speichere den Output als group_means
+spacing_piano_data_cleaned %>%
+  group_by(lag_task1) %>%
   summarise(
-    mean_grade_math = mean(mean_grade_math)
+    mean_pc_final = mean(pc_final_task1),
+    mean_sdl_final = mean(sdl_final_task1),
+    mean_sda_final = mean(sda_final_task1)
   )
 
 
@@ -108,15 +105,9 @@ student_data_cleaned %>%
 # * Nutze position = position_dodge(), um die Balken nebeneinander zu reihen.
 # * Füge sinnvolle Achsen- und Legendentitel hinzu
 # * Haben die Schueler bessere familiaere Bindungen als Schuelerinnen?
-ggplot(student_data_cleaned, aes(x = famrel, fill = sex)) +
-  geom_bar(position = position_dodge()) +
-  labs(
-    x     = "Qualität der familiären Bindung",
-    y     = "Anzahl",
-    fill  = "Geschlecht"
-  ) +
-  scale_y_continuous(expand = expansion(0)) +
-  scale_fill_viridis_d(option = "cividis", begin = 0.3, end = 0.9)
+spacing_piano_data_cleaned %>%
+  ggplot(aes(lag_task1, mean_pc_final)) +
+  geom_bar()
 
 
 # 1.3.1
