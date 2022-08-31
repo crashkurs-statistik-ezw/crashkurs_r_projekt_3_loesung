@@ -44,54 +44,29 @@ spacing_piano_data_cleaned %>%
 # 1.3 Daten visualisieren -----------------------------------------------------
 
 # 1.3.0
-# Untersuche den Datensatz mit Hilfe eines Balkendiagramms
-# * Erstelle ein aneinandergereihtes Balkendiagramm, das die Verteilung der 
-#   SuS auf die verschiedenen Level von familiaerer Bindungsqualitaet d
-#   auf der X-Achse darstellt und das Geschlecht durch die Farbe der 
-#   Balken kennzeichnet
-# * Nutze position = position_dodge(), um die Balken nebeneinander zu reihen.
-# * Füge sinnvolle Achsen- und Legendentitel hinzu
-# * Haben die Schueler bessere familiaere Bindungen als Schuelerinnen?
-spacing_piano_data_cleaned %>%
-  ggplot(aes(lag_task1, mean_pc_final)) +
-  geom_bar()
+# Untersuche den Datensatz mit Hilfe eines Linien- und Punktdiagramms
+# * Stelle den zeitlichen Verlauf der durchschnittlichen Akkuratheit (pc) dar
+
+# @Christian: hier bräuchte ich Hilfe. Es geht um alle Variablen, die pc 
+#   enthalten. Möglich wäre auch, das ganze in die verschiedenen lags aufteilen
+#   zu lassen, um vergleichen zu können
+
 
 
 # 1.3.1
-# Speichere beide Visualisierungen im R-Projekt ab unter dem Pfad
-# images/barbplot_mothers_education_status.png
-ggsave("images/verteilung_bildungsqualitaet_geschlecht.png",
-       width = 8, height = 5, dpi = 300)
+# Speichere die Visualisierung im R-Projekt ab unter dem Pfad
+# images/xxx.png
+ggsave("images/xxx.png", width = 8,
+       height = 5, dpi = 300)
 
 
 # 1.3.2
-# * Erstelle ein aneinandergereihtes Balkendiagramm mit dem Bildungslevel der 
-#   Muetter auf der x-Achse und deren Beschaeftigungsstatus auf der Y-Achse.
-# * Erstelle  eine neue bedingte Variable mit Hilfe von case_when.
-# * Unterscheiden sich die arbeitenden Muetter von den nicht arbeitenden 
-#   Muettern in ihrem Bildungslevel?
-student_data_cleaned %>%
-  mutate(
-    working_mother = case_when(
-      mjob %in% c("at_home") ~ "no",
-      TRUE ~ "yes"
-    )
-  ) %>%  
-  ggplot(aes(x = medu, fill = working_mother)) +
-  geom_bar(position = "dodge") +
-  labs(
-    x     = "Bildungslevel der Mutter",
-    y     = "Anzahl",
-    fill  = "Working mother"
-  ) +
-  scale_y_continuous(expand = expansion(0)) +
-  scale_fill_viridis_d(option = "cividis", begin = 0.3, end = 0.9)
-
+# 
 
 # 1.3.3
-# Speichere beide Visualisierungen im R-Projekt ab unter dem Pfad
-# images/barbplot_mothers_education_status.png
-ggsave("images/barbplot_mothers_education_status.png", width = 8,
+# Speichere die Visualisierung im R-Projekt ab unter dem Pfad
+# images/xxx.png
+ggsave("images/xxx.png", width = 8,
        height = 5, dpi = 300)
 
 
