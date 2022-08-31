@@ -50,7 +50,16 @@ spacing_piano_data_cleaned %>%
 # @Christian: hier bräuchte ich Hilfe. Es geht um alle Variablen, die pc 
 #   enthalten. Möglich wäre auch, das ganze in die verschiedenen lags aufteilen
 #   zu lassen, um vergleichen zu können
-
+spacing_piano_data_cleaned %>% 
+  select(subject_id, contains("pc")) %>% 
+  pivot_longer(
+    cols = contains("pc"),
+    names_to = c("prefix", "time", "task"),
+    names_sep = "_",
+    values_to = "value"
+  ) %>% 
+  ggplot(aes(x = time, y = value)) +
+  geom_col() 
 
 
 # 1.3.1
