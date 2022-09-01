@@ -44,23 +44,36 @@ spacing_piano_data_cleaned %>%
 # 1.3 Daten visualisieren -----------------------------------------------------
 
 # 1.3.0
-# Untersuche den Datensatz mit Hilfe eines Linien- und Punktdiagramms
-# * Stelle den zeitlichen Verlauf der durchschnittlichen Akkuratheit (pc) dar
-
-# @Christian: hier bräuchte ich Hilfe. Es geht um alle Variablen, die pc 
-#   enthalten. Möglich wäre auch, das ganze in die verschiedenen lags aufteilen
-#   zu lassen, um vergleichen zu können
+# Untersuche die Entwicklung mit Hilfe eines Balkendiagramms
+# * Bringe die Daten mit Hilfe von pivot_longer in ein langes Format
+# * 
 spacing_piano_data_cleaned %>% 
-  select(subject_id, contains("pc")) %>% 
+  select(subject_id, lag_task1, contains("pc")) %>% 
   pivot_longer(
     cols = contains("pc"),
     names_to = c("prefix", "time", "task"),
     names_sep = "_",
     values_to = "value"
   ) %>% 
-  ggplot(aes(x = time, y = value)) +
-  geom_col() 
+  ggplot(aes(x = factor(time, level = c('baseline', 'post1', 'pre2', 'post2',
+                                        'final')), y = value)) +
+  geom_col() +
+  facet_wrap(~lag_task1) +
+  labs(
+    x     = "Zeitpunkt",
+    y     = "Wert"
+  )
 
+# das gleiche mit Mittelwerten, Datensatz in excel erstellt
+piano_pc %>% 
+  ggplot(aes(x = factor(time, level = c('baseline', 'post1', 'pre2', 'post2',
+                                      'final')), y = value)) +
+  geom_col() +
+  facet_wrap(~condition) +
+  labs(
+    x     = "Zeitpunkt",
+    y     = "Wert"
+  )
 
 # 1.3.1
 # Speichere die Visualisierung im R-Projekt ab unter dem Pfad
@@ -71,6 +84,15 @@ ggsave("images/xxx.png", width = 8,
 
 # 1.3.2
 # 
+spacing_piano_data_cleaned <- spacing_piano_data_cleaned %>%
+  mutate(
+    h_c_difference = h_c_post - h_c_pre) %>% 
+  drop_na(h_c_difference, lag_task1) %>% 
+  group_by(lag_task1) %>% 
+  summarise(
+    mean_h_c_difference = mean(h_c_difference)) %>% 
+  ggplot(aes(x = lag_task1, y = mean_h_c_difference)) +
+  geom_col()
 
 # 1.3.3
 # Speichere die Visualisierung im R-Projekt ab unter dem Pfad
