@@ -97,7 +97,8 @@ spacing_piano_data_cleaned %>%
   summarise(
     mean_h_c_difference = mean(h_c_difference)) %>% 
   ggplot(aes(x = lag_task1, y = mean_h_c_difference)) +
-  geom_col()
+  geom_col() +
+  scale_x_continuous(breaks = c(0, 1, 5, 10, 15))
 
 # 1.3.3
 # Speichere die Visualisierung im R-Projekt ab unter dem Pfad images/xxx.png
