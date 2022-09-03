@@ -46,7 +46,10 @@ spacing_piano_data_cleaned %>%
 # 1.3.0
 # Untersuche die Entwicklung mit Hilfe eines Balkendiagramms
 # * Bringe die Daten mit Hilfe von pivot_longer in ein langes Format
-# * 
+# * Erstelle ein Balkendiagramm mit Hilfe von geom_col
+# * Ordne die Balken den Zeitpunkten nach von baseline bis final
+# * Lasse dir ein Balkendiagramm für jede der Gruppen mit verschieden langen
+#   Übungspausen anzeigen, nutze dafür facet_wrap
 spacing_piano_data_cleaned %>% 
   select(subject_id, lag_task1, contains("pc")) %>% 
   pivot_longer(
@@ -76,17 +79,19 @@ piano_pc %>%
   )
 
 # 1.3.1
-# Speichere die Visualisierung im R-Projekt ab unter dem Pfad
-# images/xxx.png
+# Speichere die Visualisierung im R-Projekt ab unter dem Pfad images/xxx.png
 ggsave("images/xxx.png", width = 8,
        height = 5, dpi = 300)
 
 
 # 1.3.2
-# 
-spacing_piano_data_cleaned <- spacing_piano_data_cleaned %>%
-  mutate(
-    h_c_difference = h_c_post - h_c_pre) %>% 
+# * Erstelle ein weiteres Balkendiagramm, welches die Entwicklung des Glücks-
+#   und Wohlgefühls zwischen den Gruppen vergleicht.
+# * Lösche zuerst die fehlenden Werte mit drop_na
+# * Berechne die Mittelwerte von h_c_difference mit group_by und summarise
+# * Übergebe den Output an ggplot und erstelle ein Balkendiagramm
+# * Welche Übungspause geht mit dem stärksten Anstieg des Wohlbefindens einher?
+spacing_piano_data_cleaned %>%
   drop_na(h_c_difference, lag_task1) %>% 
   group_by(lag_task1) %>% 
   summarise(
@@ -95,8 +100,7 @@ spacing_piano_data_cleaned <- spacing_piano_data_cleaned %>%
   geom_col()
 
 # 1.3.3
-# Speichere die Visualisierung im R-Projekt ab unter dem Pfad
-# images/xxx.png
+# Speichere die Visualisierung im R-Projekt ab unter dem Pfad images/xxx.png
 ggsave("images/xxx.png", width = 8,
        height = 5, dpi = 300)
 

@@ -36,6 +36,18 @@ spacing_piano_data_cleaned <- spacing_piano_data %>%
     )
   )
 
+# 1.2.0
+# * Füge eine neue Variable hinzu, die anzeigt, wie sich das Glücks- und 
+#   Wohlgefühl der Proband*innen vor und nach dem Test unterscheidet
+# * Subtrahiere dafür h_c_pre von h_c_pre
+# * Nenne die neue Variable h_c_difference
+# * Speichere den bereinigten Datensatz in der Variable 
+#   spacing_piano_data_cleaned
+# * Proband/in  Nr. 3 hat einen h_c_difference Score von 15, was bedeutet das?
+spacing_piano_data_cleaned <- spacing_piano_data_cleaned %>%
+  mutate(
+    h_c_difference = h_c_post - h_c_pre)
+
 # 1.2 Datenexport ---------------------------------------------------------
 
 # 1.2.0
