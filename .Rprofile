@@ -1,5 +1,4 @@
 .First <- function() {
-  # Load packages
   library(tidyverse)
   
   # Set theme
@@ -10,15 +9,17 @@
                               hjust = 0.5,
                               margin = margin(b = 15)),
     axis.line = element_line(color = "black", size = .5),
-    axis.title = element_text(size = 18, color = "black",
+    axis.title = element_text(size = 14, color = "black",
                               face = "bold"),
-    axis.text = element_text(size = 15, color = "black"),
-    axis.text.x = element_text(margin = margin(t = 10)),
-    axis.title.y = element_text(margin = margin(r = 10)),
+    axis.text = element_text(size = 12, color = "black"),
+    axis.text.x = element_text(margin = margin(t = 5)),
+    axis.title.x = element_text(margin = margin(t = 15)),
+    axis.title.y = element_text(margin = margin(r = 15)),
     axis.ticks = element_line(size = .5),
-    panel.grid = element_blank(),
+    panel.grid = element_line(color = "grey80", size = 0.5),
+    panel.grid.major.x= element_blank(),
     legend.position = c(0.20, 0.8),
-    legend.background = element_rect(color = "black", size = 0.2),
+    legend.background = element_rect(color = "black", size = 0.5),
     legend.text = element_text(size = 15),
     legend.margin = margin(t = 5, l = 5, r = 5, b = 5),
     legend.key = element_rect(color = NA, fill = NA)
