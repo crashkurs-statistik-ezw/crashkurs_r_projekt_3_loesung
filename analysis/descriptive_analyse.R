@@ -59,7 +59,7 @@ spacing_piano_data_cleaned %>%
     values_to = "value"
   ) %>% 
   ggplot(aes(x = time, y = value)) +
-  geom_col() 
+  stat_summary(fun = mean, geom = "bar") 
 
 
 # 1.3.1
