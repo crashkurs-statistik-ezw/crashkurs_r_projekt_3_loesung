@@ -75,7 +75,7 @@ spacing_data %>%
 
 # 2.6 Daten visualisieren -----------------------------------------------------
 
-# 2.6.1 Balkendiagramm erstellen
+# 2.6.1 Balkendiagramm der Leistungsentwicklung erstellen
 # Untersuche die Entwicklung mit Hilfe eines Balkendiagramms
 # * Bringe die Variablen, die den String "pc" enthalten mit Hilfe von 
 #   pivot_longer in ein langes Format
@@ -86,6 +86,7 @@ spacing_data %>%
 #   Übungspausen anzeigen, nutze dafür facet_wrap
 spacing_data %>% 
   select(subject_id, lag_task1, contains("pc")) %>% 
+  # TODO: Pivot longer
   pivot_longer(
     cols = contains("pc"),
     names_to = c("prefix", "time", "task"),
@@ -97,36 +98,26 @@ spacing_data %>%
     group_mean = mean(value, na.rm = TRUE)
   ) %>% 
   ungroup() %>% 
-  ggplot(aes(x = factor(time, level = c('baseline', 'post1', 'pre2', 'post2',
+  ggplot(
+    aes(x = factor(time, level = c('baseline', 'post1', 'pre2', 'post2',
                                         'final')), 
-             y = group_mean)) +
-  geom_col(fill = "grey20", alpha = .7, width = 0.8) +
+        y = group_mean)) + # TODO: group_mean einfuegen
+  geom_col(fill = "grey10", alpha = .7, width = 0.8) + # TODO
   scale_y_continuous(expand = expansion(0)) +
   scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
   facet_wrap(vars(lag_task1)) +
   labs(
     x     = "Zeitpunkt",
-    y     = "Wert"
+    y     = "Akkuratheit der gespielten Noten"
   )
 
 # 2.6.2
 # TODO: Idee nur Final vergleich der beiden Gruppen als Boxplot
 
 
-# das gleiche mit Mittelwerten, Datensatz in excel erstellt
-piano_pc %>% 
-  ggplot(aes(x = factor(time, level = c('baseline', 'post1', 'pre2', 'post2',
-                                      'final')), y = value)) +
-  geom_col() +
-  facet_wrap(~condition) +
-  labs(
-    x     = "Zeitpunkt",
-    y     = "Wert"
-  )
-
 # 2.6.2 Visualisierung speichern
 # Speichere die Visualisierung im R-Projekt ab unter dem Pfad images/xxx.png
-ggsave("images/balkendiagramm_.png", width = 8,
+ggsave("images/balkendiagramm_.png", width = 8,  # TODO: DAteien spezifisch benennen
        height = 5, dpi = 300)
 
 
