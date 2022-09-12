@@ -1,25 +1,25 @@
-# 2.4 Setup ---------------------------------------------------------------
+# 2.5 Setup ---------------------------------------------------------------
 
-# 2.4.1 Daten einlesen
+# 2.5.1 Daten einlesen
 # Imnportiere die CSV-Datei data/export/spacing_piano_data_cleaned.csv
 # und speichere sie in der Variable spacing_data
 spacing_data <- read_csv("data/export/spacing_piano_data_cleaned.csv")
 
 
-# 2.5 Daten explorieren  ------------------------------------------------
+# 2.6 Daten explorieren  ------------------------------------------------
 
-# 2.5.1 Geschlecht zählen
+# 2.6.1 Geschlecht zählen
 # Wie viele Maenner und Frauen sind im Datensatz?
 spacing_data %>%
   count(gender)
 
 
-# 2.5.2 Mittelwerte bestimmen
+# 2.6.2 Mittelwerte bestimmen
 # Bestimme den Mittelwert des Alters aller Proband*innen
 mean(spacing_data$age, na.rm = TRUE)
 
 
-# 2.5.3 Mittelwerte bestimmen II
+# 2.6.3 Mittelwerte bestimmen II
 # Bestimme den Mittelwert des Alters aller Proband*innen nach ihrem Geschlecht
 # mit Hilfe von group_by und summarise. Entferne vorab alle fehlenden 
 # Werte in der Variable 'gender' und 'age' mit drop_na
@@ -31,14 +31,14 @@ spacing_data %>%
   )
 
 
-# 2.5.4 Häufigkeit Musikunterricht
+# 2.6.4 Häufigkeit Musikunterricht
 # Wie viele der Proband*innen haben Klavierunterricht, Unterricht in einem
 # anderen Instrument oder gar keinen Musikunterricht?
 spacing_data %>%
   count(music_training)
 
 
-# 2.5.5 TN pro Gruppe
+# 2.6.5 TN pro Gruppe
 # Wie viele Teilnehmende waren in den einzelnen Spacing-Gruppen (lag_task1)? 
 # Die Zahl steht für die Dauer der Pause zwischen den Übungsphasen 
 # beim Klavierspielen
@@ -46,7 +46,7 @@ spacing_data %>%
   count(lag_task1)
 
 
-# 2.5.6 Mittelwerte für die Leistungskriterien pro Gruppe
+# 2.6.6 Mittelwerte für die Leistungskriterien pro Gruppe
 # * Bestimme mit Hilfe von group_by und summarise den Mittelwert je Gruppe
 #   (lag_task1) für die drei verschiedenen Leistungskriterien im Abschlusstest
 # * Speichere den Output als group_means
@@ -59,7 +59,7 @@ spacing_data %>%
   )
 
 
-# 2.5.6 Mittelwerte für die Leistungskriterien pro Gruppe II
+# 2.6.7 Mittelwerte für die Leistungskriterien pro Gruppe II
 # Führe den folgenden Code aus. Er kommt zum gleichen Ergebniss wie der 
 # Code von 2.5.6 ist allerdings ein wenig eleganter und verwendet die 
 # Funktion across
@@ -73,9 +73,9 @@ spacing_data %>%
   )
 
 
-# 2.6 Daten visualisieren -----------------------------------------------------
+# 2.7 Daten visualisieren -----------------------------------------------------
 
-# 2.6.1 Balkendiagramm der Leistungsentwicklung erstellen
+# 2.7.1 Balkendiagramm der Leistungsentwicklung erstellen
 # Untersuche die Entwicklung mit Hilfe eines Balkendiagramms
 # * Bringe die Variablen, die den String "pc" enthalten mit Hilfe von 
 #   pivot_longer in ein langes Format
@@ -111,17 +111,17 @@ spacing_data %>%
     y     = "Akkuratheit der gespielten Noten"
   )
 
-# 2.6.2
+# 2.7.2
 # TODO: Idee nur Final vergleich der beiden Gruppen als Boxplot
 
 
-# 2.6.2 Visualisierung speichern
+# 2.7.3 Visualisierung speichern
 # Speichere die Visualisierung im R-Projekt ab unter dem Pfad images/xxx.png
 ggsave("images/balkendiagramm_.png", width = 8,  # TODO: DAteien spezifisch benennen
        height = 5, dpi = 300)
 
 
-# 1.3.2
+# 2.7.4 Balkendiagramm des Glücks- und Wohlgefühls erstellen
 # * Erstelle ein weiteres Balkendiagramm, welches die Entwicklung des Glücks-
 #   und Wohlgefühls zwischen den Gruppen vergleicht.
 # * Lösche zuerst die fehlenden Werte mit drop_na
@@ -137,7 +137,7 @@ spacing_data %>%
   geom_col() +
   scale_x_continuous(breaks = c(0, 1, 5, 10, 15))
 
-# 1.3.3
+# 2.7.5 Visualisierung speichern
 # Speichere die Visualisierung im R-Projekt ab unter dem Pfad images/xxx.png
 ggsave("images/xxx.png", width = 8,
        height = 5, dpi = 300)

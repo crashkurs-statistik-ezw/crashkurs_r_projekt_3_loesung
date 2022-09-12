@@ -1,23 +1,23 @@
 
-# 2.0 Setup -------------------------------------------------------------
+# 2.1 Setup -------------------------------------------------------------
 
-# 2.0.0 Pakete installieren
+# 2.1.1 Pakete installieren
 # (Installiere und) lade die Pakete tidyverse, janitor und haven
 library(tidyverse)
 library(janitor)
 library(haven)
 
-# 2.1 Daten einlesen ------------------------------------------------------
+# 2.2 Daten einlesen ------------------------------------------------------
 
-# 2.1.0 Daten einlesen
+# 2.2.1 Daten einlesen
 # * Lese den Datensatz data/spacing_piano_data.csv ein
 # * Speichere den Datensatz in der Variable spacing_piano_data
 spacing_piano_data <- read_csv("data/spacing_piano_data.csv")
 
 
-# 2.2 Daten bereinigen ---------------------------------------------
+# 2.3 Daten bereinigen ---------------------------------------------
 
-# 2.2.0 Daten reinigen
+# 2.3.1 Daten reinigen
 # * Reinige die Variablendes Datensatzes spacing_piano_data
 #   mit der Funktion 'clean_names' aus dem Paket janitor
 # * Der Datensatz enthält Variablen zu zwei Aufgaben, uns interessiert nur die
@@ -42,7 +42,7 @@ spacing_piano_data_cleaned <- spacing_piano_data %>%
   )
 
 
-# 2.2.1 Differenz berechnen
+# 2.3.2 Differenz berechnen
 # * Füge eine neue Variable hinzu, die anzeigt, wie sich das Glücks- und 
 #   Wohlgefühl der Proband*innen vor und nach dem Test unterscheidet.
 #   Subtrahiere hierfür h_c_pre von h_c_post
@@ -55,18 +55,18 @@ spacing_piano_data_cleaned <- spacing_piano_data_cleaned %>%
   )
 
 
-# 2.2.2
+# 2.3.3 Output deuten
 # Proband/in  Nr. 3 hat einen h_c_difference Score von 15, was bedeutet das?
 
 
-# 2.3 Datenexport ---------------------------------------------------------
+# 2.4 Datenexport ---------------------------------------------------------
 
-# 2.3.0 CSV-Datei speichern
+# 2.4.1 CSV-Datei speichern
 # Speichere den Data Frame unter data/export/spacing_piano_data_cleaned.csv
 write_csv(spacing_piano_data_cleaned, "data/export/spacing_piano_data_cleaned.csv")
 
 
-# 2.3.1
+# 2.4.2 SAV-Datei speichern
 # * Um die Daten in SPSS zu nutzen, exportiere den gereinigten Datensatz mit der
 #   Funktion write_sav
 # * Speichere die Daten unter data/export/student_data_cleaned.sav
