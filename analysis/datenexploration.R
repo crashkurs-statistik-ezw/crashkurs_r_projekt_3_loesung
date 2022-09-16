@@ -1,9 +1,9 @@
 # 3.5 Setup ---------------------------------------------------------------
 
 # 2.5.1 Daten einlesen
-# Imnportiere die CSV-Datei data/export/spacing_piano_data_cleaned.csv
+# Imnportiere die CSV-Datei data/cleaned/spacing_piano_data_cleaned.csv
 # und speichere sie in der Variable spacing_data
-spacing_data <- read_csv("data/export/spacing_piano_data_cleaned.csv")
+spacing_data <- read_csv("data/cleaned/spacing_piano_data_cleaned.csv")
 
 
 # 3.6 Daten explorieren  ------------------------------------------------
@@ -60,9 +60,11 @@ spacing_data %>%
 
 
 # 3.6.7 Mittelwerte für die Leistungskriterien pro Gruppe II
-# Führe den folgenden Code aus. Er kommt zum gleichen Ergebniss wie der 
-# Code von 2.5.6 ist allerdings ein wenig eleganter und verwendet die 
-# Funktion across
+# * Führe den folgenden Code aus. Er kommt zum gleichen Ergebniss wie der 
+#   Code von 3.6.6 ist allerdings ein wenig eleganter und verwendet die 
+#   Funktion across
+# * Mehr Informationen findest du unter: 
+#   https://www.tidyverse.org/blog/2020/04/dplyr-1-0-0-colwise/
 spacing_data %>% 
   group_by(lag_task1) %>% 
   summarise(
@@ -81,7 +83,9 @@ spacing_data %>%
 #   pivot_longer in ein langes Format
 # * Erstelle ein Balkendiagramm mit den Lag Times auf der X-Achse und 
 #   TODO auf der Y-Achse
-# * Ordne die Balken auf der X-Achse en Zeitpunkten nach von baseline bis final
+# * Ordne die Balken auf der X-Achse den Zeitpunkten nach von baseline bis final
+#   Wenn du Hilfe dabei brauchst, schaue dir diesen Thread an:
+#   https://stackoverflow.com/questions/5208679/order-bars-in-ggplot2-bar-graph
 # * Lasse dir ein Balkendiagramm für jede der Gruppen mit verschieden langen
 #   Übungspausen anzeigen, nutze dafür facet_wrap
 spacing_data %>% 
@@ -111,13 +115,11 @@ spacing_data %>%
     y     = "Akkuratheit der gespielten Noten"
   )
 
-# 3.7.2
-# TODO: Idee nur Final vergleich der beiden Gruppen als Boxplot
 
-
-# 3.7.3 Visualisierung speichern
-# Speichere die Visualisierung im R-Projekt ab unter dem Pfad images/xxx.png
-ggsave("images/balkendiagramm_.png", width = 8,  # TODO: DAteien spezifisch benennen
+# 3.7.2 Visualisierung speichern
+# Speichere die Visualisierung im R-Projekt ab unter dem Pfad 
+# images/balkendiagramm_entwicklung_akkuratheit.png
+ggsave("images/balkendiagramm_entwicklung_akkuratheit.png", width = 8,
        height = 5, dpi = 300)
 
 
@@ -138,8 +140,9 @@ spacing_data %>%
   scale_x_continuous(breaks = c(0, 1, 5, 10, 15))
 
 # 3.7.5 Visualisierung speichern
-# Speichere die Visualisierung im R-Projekt ab unter dem Pfad images/xxx.png
-ggsave("images/xxx.png", width = 8,
+# Speichere die Visualisierung im R-Projekt ab unter dem Pfad 
+# images/balkendiagramm_gluecks_und_wohlgefuehl.png
+ggsave("images/balkendiagramm_gluecks_und_wohlgefuehl.png", width = 8,
        height = 5, dpi = 300)
 
 
