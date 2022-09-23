@@ -1,6 +1,6 @@
 # 3.5 Setup ---------------------------------------------------------------
 
-# 2.5.1 Daten einlesen
+# 3.5.1 Daten einlesen
 # Imnportiere die CSV-Datei data/cleaned/spacing_piano_data_cleaned.csv
 # und speichere sie in der Variable spacing_data
 spacing_data <- read_csv("data/cleaned/spacing_piano_data_cleaned.csv")
@@ -41,7 +41,7 @@ spacing_data %>%
 # 3.6.5 TN pro Gruppe
 # Wie viele Teilnehmende waren in den einzelnen Spacing-Gruppen (lag_task1)? 
 # Die Zahl steht für die Dauer der Pause zwischen den Übungsphasen 
-# beim Klavierspielen
+# beim Klavierspielen in Minuten
 spacing_data %>%
   count(lag_task1)
 
@@ -70,7 +70,8 @@ spacing_data %>%
   summarise(
     across(
       .cols = contains("final_task"),
-      .fns  = ~ mean(., na.rm = TRUE)
+      .fns  = list(mean = ~ mean(., na.rm = TRUE)),
+      .nanmes = "{.col}_{.fn}"
     )
   )
 
@@ -80,17 +81,17 @@ spacing_data %>%
 # 3.7.1 Balkendiagramm der Leistungsentwicklung erstellen
 # Untersuche die Entwicklung mit Hilfe eines Balkendiagramms
 # * Bringe die Variablen, die den String "pc" enthalten mit Hilfe von 
-#   pivot_longer in ein langes Format
+#   pivot_longer in ein langes Format. Tipp schaue dir das
+#   Cheat Sheet zu pivot_longer an, um diese Aufgabe zu lösen
 # * Erstelle ein Balkendiagramm mit den Lag Times auf der X-Achse und 
-#   TODO auf der Y-Achse
+#   dem Messzeitpunkt auf der Y-Achse
 # * Ordne die Balken auf der X-Achse den Zeitpunkten nach von baseline bis final
 #   Wenn du Hilfe dabei brauchst, schaue dir diesen Thread an:
 #   https://stackoverflow.com/questions/5208679/order-bars-in-ggplot2-bar-graph
-# * Lasse dir ein Balkendiagramm für jede der Gruppen mit verschieden langen
-#   Übungspausen anzeigen, nutze dafür facet_wrap
+# * Lasse dir ein Balkendiagramm für jede der Gruppen (lag_task1)
+#   anzeigen; nutze hierfür facet_wrap
 spacing_data %>% 
   select(subject_id, lag_task1, contains("pc")) %>% 
-  # TODO: Pivot longer
   pivot_longer(
     cols = contains("pc"),
     names_to = c("prefix", "time", "task"),
@@ -102,11 +103,10 @@ spacing_data %>%
     group_mean = mean(value, na.rm = TRUE)
   ) %>% 
   ungroup() %>% 
-  ggplot(
-    aes(x = factor(time, level = c('baseline', 'post1', 'pre2', 'post2',
+  ggplot(aes(x = factor(time, level = c('baseline', 'post1', 'pre2', 'post2',
                                         'final')), 
-        y = group_mean)) + # TODO: group_mean einfuegen
-  geom_col(fill = "grey10", alpha = .7, width = 0.8) + # TODO
+        y = group_mean)) +
+  geom_col(fill = "grey20", alpha = .7, width = 0.8) +
   scale_y_continuous(expand = expansion(0)) +
   scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
   facet_wrap(vars(lag_task1)) +
@@ -123,23 +123,27 @@ ggsave("images/balkendiagramm_entwicklung_akkuratheit.png", width = 8,
        height = 5, dpi = 300)
 
 
-# 3.7.4 Balkendiagramm des Glücks- und Wohlgefühls erstellen
+# 3.7.3 Balkendiagramm des Glücks- und Wohlgefühls erstellen
 # * Erstelle ein weiteres Balkendiagramm, welches die Entwicklung des Glücks-
 #   und Wohlgefühls zwischen den Gruppen vergleicht.
-# * Lösche zuerst die fehlenden Werte mit drop_na
-# * Berechne die Mittelwerte von h_c_difference mit group_by und summarise
+# * Berechne die Mittelwerte von h_c_difference mit group_by und summarise pro
+#   Gruppe (lag_task1)
+# * Wandle die Variable lag_task1 in einen Faktor um
 # * Übergebe den Output an ggplot und erstelle ein Balkendiagramm
 # * Welche Übungspause geht mit dem stärksten Anstieg des Wohlbefindens einher?
 spacing_data %>%
   drop_na(h_c_difference, lag_task1) %>% 
   group_by(lag_task1) %>% 
   summarise(
-    mean_h_c_difference = mean(h_c_difference)) %>% 
+    mean_h_c_difference = mean(h_c_difference, na.rm = TRUE)) %>% 
+  mutate(
+    lag_task1 = as.factor(lag_task1)
+  ) %>% 
   ggplot(aes(x = lag_task1, y = mean_h_c_difference)) +
-  geom_col() +
-  scale_x_continuous(breaks = c(0, 1, 5, 10, 15))
+  geom_col() 
 
-# 3.7.5 Visualisierung speichern
+
+# 3.7.4 Visualisierung speichern
 # Speichere die Visualisierung im R-Projekt ab unter dem Pfad 
 # images/balkendiagramm_gluecks_und_wohlgefuehl.png
 ggsave("images/balkendiagramm_gluecks_und_wohlgefuehl.png", width = 8,

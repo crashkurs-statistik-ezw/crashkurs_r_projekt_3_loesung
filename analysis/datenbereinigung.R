@@ -6,6 +6,7 @@ library(tidyverse)
 library(janitor)
 library(haven)
 
+
 # 3.2 Daten einlesen ------------------------------------------------------
 
 # 3.2.1 Daten einlesen
@@ -17,7 +18,7 @@ spacing_piano_data <- read_csv("data/spacing_piano_data.csv")
 # 3.3 Daten bereinigen ---------------------------------------------
 
 # 3.3.1 Daten reinigen
-# * Reinige die Variablendes Datensatzes spacing_piano_data
+# * Reinige die Variablen des Datensatzes spacing_piano_data
 #   mit der Funktion 'clean_names' aus dem Paket janitor
 # * Der Datensatz enthält Variablen zu zwei Aufgaben, uns interessiert nur die
 #   erste Aufgabe. Entferne daher alle Variablen, die 'task2' im Variablennamen
@@ -56,7 +57,7 @@ spacing_piano_data_cleaned <- spacing_piano_data_cleaned %>%
 
 # 3.3.3 Output deuten
 # Proband/in  Nr. 3 hat einen h_c_difference Score von 15, was bedeutet das?
-
+# -> Das ihr Wohlbefinden um 15 Punkte gestiegen ist
 
 # 3.4 Datenexport ---------------------------------------------------------
 
