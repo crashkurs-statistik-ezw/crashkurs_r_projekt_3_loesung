@@ -61,12 +61,12 @@ spacing_piano_data_cleaned <- spacing_piano_data_cleaned %>%
 # 3.4 Datenexport ---------------------------------------------------------
 
 # 3.4.1 CSV-Datei speichern
-# Speichere den Data Frame unter data/export/spacing_piano_data_cleaned.csv
-write_csv(spacing_piano_data_cleaned, "data/export/spacing_piano_data_cleaned.csv")
+# Speichere den Data Frame unter data/cleaned/spacing_piano_data_cleaned.csv
+write_csv(spacing_piano_data_cleaned, "data/cleaned/spacing_piano_data_cleaned.csv")
 
 
 # 3.4.2 SAV-Datei speichern
 # * Um die Daten in SPSS zu nutzen, exportiere den gereinigten Datensatz mit der
 #   Funktion write_sav
-# * Speichere die Daten unter data/export/student_data_cleaned.sav
-write_sav(spacing_piano_data_cleaned, "data/export/spacing_piano_data_cleaned.sav")
+# * Speichere die Daten unter data/cleaned/spacing_piano_data_cleaned.sav
+write_sav(spacing_piano_data_cleaned, "data/cleaned/spacing_piano_data_cleaned.sav")
