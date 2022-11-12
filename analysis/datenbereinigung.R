@@ -34,11 +34,12 @@ spacing_piano_data_cleaned <- spacing_piano_data %>%
   mutate(
     music_training = case_when(
       music_training == 1 ~ "piano",
-      music_training == 2 ~ "other_instrument"),
+      music_training == 2 ~ "other_instrument"
+      ),
     sheet_music = case_when(
       sheet_music == 1 ~ "can_read",
       sheet_music == 2 ~ "cannot_read"
-    )
+      )
   )
 
 
@@ -47,11 +48,15 @@ spacing_piano_data_cleaned <- spacing_piano_data %>%
 #   Wohlgefühl der Proband*innen vor und nach dem Test unterscheidet.
 #   Subtrahiere hierfür h_c_pre von h_c_post
 # * Nenne die neue Variable h_c_difference
+# * Füge eine neue Variable hinzu, die anzeigt, wie sich der Anteil der richtigen
+#   Aufgaben vom ersten bis zum letzten Test verändert hat
+# * Nenne die neue Variable pc_difference
 # * Speichere den bereinigten Datensatz in der Variable 
 #   spacing_piano_data_cleaned
 spacing_piano_data_cleaned <- spacing_piano_data_cleaned %>%
   mutate(
-    h_c_difference = h_c_post - h_c_pre
+    h_c_difference = h_c_post - h_c_pre,
+    pc_difference = pc_final_task1 - pc_baseline_task1
   )
 
 
